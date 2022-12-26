@@ -1,5 +1,7 @@
 package jade;
 
+import jade.scene.LevelScene;
+import jade.scene.Scene;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
@@ -10,6 +12,7 @@ import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.system.MemoryUtil.NULL;
+import static util.Time.getTime;
 
 public class Window {
 
@@ -24,6 +27,7 @@ public class Window {
     private final String title;
 
     private long glfwWindow;
+    private Scene currentScene;
 
     private Window() {
         width = 1920;
@@ -94,9 +98,13 @@ public class Window {
         // creates the GLCapabilities instance and makes the OpenGL
         // bindings available for use.
         GL.createCapabilities();
+
+        currentScene = new LevelScene();
     }
 
     private void loop() {
+        float deltaTime, endTime, beginTime = getTime();
+
         while (!glfwWindowShouldClose(glfwWindow)) {
             // Poll events
             glfwPollEvents();
@@ -105,6 +113,10 @@ public class Window {
             glClear(GL_COLOR_BUFFER_BIT);
 
             glfwSwapBuffers(glfwWindow);
+
+            endTime = getTime();
+            deltaTime = endTime - beginTime;
+            beginTime = endTime;
         }
     }
 }
