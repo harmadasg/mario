@@ -1,6 +1,6 @@
 package jade;
 
-import jade.scene.LevelScene;
+import jade.scene.LevelEditorScene;
 import jade.scene.Scene;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
@@ -17,8 +17,8 @@ import static util.Time.getTime;
 public class Window {
 
     private static final float RED = 1.0f;
-    private static final float GREEN = 0.0f;
-    private static final float BLUE = 0.0f;
+    private static final float GREEN = 1.0f;
+    private static final float BLUE = 1.0f;
     private static final float ALPHA = 1.0f;
     private static Window WINDOW;
 
@@ -99,11 +99,12 @@ public class Window {
         // bindings available for use.
         GL.createCapabilities();
 
-        currentScene = new LevelScene();
+        currentScene = new LevelEditorScene();
     }
 
     private void loop() {
-        float deltaTime, endTime, beginTime = getTime();
+        float deltaTime = 0.0f;
+        float endTime, beginTime = getTime();
 
         while (!glfwWindowShouldClose(glfwWindow)) {
             // Poll events
@@ -111,6 +112,8 @@ public class Window {
 
             glClearColor(RED, GREEN, BLUE, ALPHA);
             glClear(GL_COLOR_BUFFER_BIT);
+
+            currentScene.update(deltaTime);
 
             glfwSwapBuffers(glfwWindow);
 
