@@ -1,8 +1,8 @@
-package jade;
+package jade.listener;
 
 import static org.lwjgl.glfw.GLFW.*;
 
-class KeyboardListener {
+public class KeyboardListener {
 
     private static final int SUPPORTED_KEY_BINDINGS = GLFW_KEY_LAST + 1;
     private static KeyboardListener INSTANCE;
@@ -13,14 +13,14 @@ class KeyboardListener {
         keyPressed = new boolean[SUPPORTED_KEY_BINDINGS];
     }
 
-    static KeyboardListener get() {
+    public static KeyboardListener get() {
         if (INSTANCE == null) {
             INSTANCE = new KeyboardListener();
         }
         return INSTANCE;
     }
 
-    void obKeyboardAction(long window, int key, int scanCode, int action, int mods) {
+    public void obKeyboardAction(long window, int key, int scanCode, int action, int mods) {
         if (GLFW_PRESS == action) {
             keyPressed[key] = true;
         } else if (GLFW_RELEASE == action) {
@@ -28,7 +28,7 @@ class KeyboardListener {
         }
     }
 
-    boolean isKeyPressed(int key) {
+    public boolean isKeyPressed(int key) {
         return keyPressed[key];
     }
 }

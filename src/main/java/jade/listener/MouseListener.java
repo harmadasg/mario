@@ -1,8 +1,8 @@
-package jade;
+package jade.listener;
 
 import static org.lwjgl.glfw.GLFW.*;
 
-class MouseListener {
+public class MouseListener {
 
     private static final int SUPPORTED_MOUSE_BUTTONS = 3;
     private static MouseListener INSTANCE;
@@ -16,14 +16,14 @@ class MouseListener {
         mouseButtonPressed = new boolean[SUPPORTED_MOUSE_BUTTONS];
     }
 
-    static MouseListener get() {
+    public static MouseListener get() {
         if (INSTANCE == null) {
             INSTANCE = new MouseListener();
         }
         return INSTANCE;
     }
 
-    void onMousePositionChanged(long window, double xPosition, double yPosition) {
+    public void onMousePositionChanged(long window, double xPosition, double yPosition) {
         this.lastX = xPosition;
         this.lastY = yPosition;
         this.xPosition = xPosition;
@@ -31,7 +31,7 @@ class MouseListener {
         this.isDragging = isAnyButtonPressed();
     }
 
-    void onMouseButtonAction(long window, int button, int action, int mods) {
+    public void onMouseButtonAction(long window, int button, int action, int mods) {
         if (isMouseButtonSupported(button)) {
             if (GLFW_PRESS == action) {
                 mouseButtonPressed[button] = true;
@@ -42,47 +42,47 @@ class MouseListener {
         }
     }
 
-    void onMouseScrollAction(long window, double xOffset, double yOffset) {
+    public void onMouseScrollAction(long window, double xOffset, double yOffset) {
         scrollX = xOffset;
         scrollY = yOffset;
     }
 
-    void onEndFrame() {
+    public void onEndFrame() {
         scrollX = 0;
         scrollY = 0;
         lastX = xPosition;
         lastY = yPosition;
     }
 
-    double getX() {
+    public double getX() {
         return xPosition;
     }
 
-    double getY() {
+    public double getY() {
         return yPosition;
     }
 
-    double getDx() {
+    public double getDx() {
         return lastX - xPosition;
     }
 
-    double getDy() {
+    public double getDy() {
         return lastY - yPosition;
     }
 
-    double getScrollX() {
+    public double getScrollX() {
         return scrollX;
     }
 
-    double getScrollY() {
+    public double getScrollY() {
         return scrollY;
     }
 
-    boolean isDragging() {
+    public boolean isDragging() {
         return isDragging;
     }
 
-    boolean isMouseButtonDown(int button) {
+    public boolean isMouseButtonDown(int button) {
         if (isMouseButtonSupported(button)) {
             return mouseButtonPressed[button];
         } else {

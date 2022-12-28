@@ -1,5 +1,8 @@
 package render;
 
+import org.joml.Matrix4f;
+import org.lwjgl.BufferUtils;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -33,6 +36,13 @@ public class Shader {
 
     public void detach() {
         glUseProgram(0);
+    }
+
+    public void uploadMatrix(String name, Matrix4f matrix) {
+        int location = glGetUniformLocation(shaderProgramId, name);
+        var buffer = BufferUtils.createFloatBuffer(4 * 4);
+        matrix.get(buffer);
+        glUniformMatrix4fv(location, false, buffer);
     }
 
     private String readFile(String filePath) {

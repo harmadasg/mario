@@ -1,5 +1,7 @@
 package jade;
 
+import jade.listener.KeyboardListener;
+import jade.listener.MouseListener;
 import jade.scene.LevelEditorScene;
 import jade.scene.Scene;
 import org.lwjgl.Version;
