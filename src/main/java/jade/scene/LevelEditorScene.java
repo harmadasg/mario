@@ -4,6 +4,7 @@ import jade.Camera;
 import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 import render.Shader;
+import util.Time;
 
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
@@ -79,8 +80,9 @@ public class LevelEditorScene implements Scene {
     public void update(float deltaTime) {
         // Bind shader program
         shader.use();
-        shader.uploadMatrix("uProjection", camera.getProjectionMatrix());
-        shader.uploadMatrix("uView", camera.getViewMatrix());
+        shader.upload("uProjection", camera.getProjectionMatrix());
+        shader.upload("uView", camera.getViewMatrix());
+        shader.upload("uTime", Time.getTime());
         // Bind the VAO that we're using
         glBindVertexArray(vaoId);
 

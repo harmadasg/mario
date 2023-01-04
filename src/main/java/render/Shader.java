@@ -1,8 +1,5 @@
 package render;
 
-import org.joml.Matrix4f;
-import org.lwjgl.BufferUtils;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -18,9 +15,13 @@ public class Shader {
     private int shaderProgramId;
     private String vertexSource;
     private String fragmentSource;
+    private boolean beingUsed;
+
+    private final UniformUploader uniformUploader;
 
     public Shader(String filePath) {
         this.filePath = filePath;
+        this.uniformUploader = new UniformUploader(this);
         extractSources(readFile(filePath));
     }
 
@@ -31,18 +32,24 @@ public class Shader {
     }
 
     public void use() {
-        glUseProgram(shaderProgramId);
+        if (!beingUsed) {
+            glUseProgram(shaderProgramId);
+            beingUsed = true;
+        }
     }
 
     public void detach() {
         glUseProgram(0);
+        beingUsed = false;
     }
 
-    public void uploadMatrix(String name, Matrix4f matrix) {
-        int location = glGetUniformLocation(shaderProgramId, name);
-        var buffer = BufferUtils.createFloatBuffer(4 * 4);
-        matrix.get(buffer);
-        glUniformMatrix4fv(location, false, buffer);
+    public void upload(String varName, Object value) {
+        uniformUploader.upload(varName, value);
+    }
+
+
+    public int getShaderProgramId() {
+        return shaderProgramId;
     }
 
     private String readFile(String filePath) {
