@@ -3,10 +3,12 @@ package jade.scene;
 import jade.Camera;
 import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
-import render.Shader;
+import renderer.Shader;
+import renderer.Texture;
 import util.Time;
 
 import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
@@ -14,14 +16,15 @@ public class LevelEditorScene implements Scene {
 
     private int vaoId, vboId, eboId;
     private final Shader shader;
+    private final Texture texture;
     private final Camera camera;
 
     private float[] vertexArray = {
-        // position             // color
-        100.5f, 0.5f, 0.0f,      1.0f, 0.0f, 0.0f, 1.0f, // Bottom right 0
-        0.5f, 100.5f, 0.0f,      0.0f, 1.0f, 0.0f, 1.0f, // Top left     1
-        100.5f, 100.5f, 0.0f,    0.0f, 0.0f, 1.0f, 1.0f, // Top right    2
-        0.5f, 0.5f, 0.0f,        1.0f, 1.0f, 0.0f, 1.0f // Bottom left   3
+        // position             // color                    // UV Coordinates
+        100f,   0f, 0.0f,       1.0f, 0.0f, 0.0f, 1.0f,     1, 1, // Bottom right 0
+        0f, 100f, 0.0f,         0.0f, 1.0f, 0.0f, 1.0f,     0, 0, // Top left     1
+        100f, 100f, 0.0f ,      1.0f, 0.0f, 1.0f, 1.0f,     1, 0, // Top right    2
+        0f,   0f, 0.0f,         1.0f, 1.0f, 0.0f, 1.0f,     0, 1  // Bottom left  3
     };
 
     // IMPORTANT: Must be in counter-clockwise order
@@ -34,13 +37,14 @@ public class LevelEditorScene implements Scene {
                 x           x
          */
             2, 1, 0, // Top right triangle
-            0, 1, 3 // Bottom left triangle
+            0, 1, 3 // bottom left triangle
     };
 
     public LevelEditorScene() {
-        camera = new Camera(new Vector2f());
+        camera = new Camera(new Vector2f(-200, -300));
         shader = new Shader("assets/shaders/default.glsl");
         shader.compileAndLink();
+        this.texture = new Texture("assets/images/testImage.png");
 
         // ============================================================
         // Generate VAO, VBO, and EBO buffer objects, and send to GPU
@@ -68,18 +72,29 @@ public class LevelEditorScene implements Scene {
         // Add vertex attribute pointers
         int positionSize = 3;
         int colorSize = 4;
-        int vertexSizeBytes = (positionSize + colorSize) * Float.BYTES;
+        int uvSize = 2;
+        int vertexSizeBytes = (positionSize + colorSize + uvSize) * Float.BYTES;
+
         glVertexAttribPointer(0, positionSize, GL_FLOAT, false, vertexSizeBytes, 0);
         glEnableVertexAttribArray(0);
 
         glVertexAttribPointer(1, colorSize, GL_FLOAT, false, vertexSizeBytes, positionSize * Float.BYTES);
         glEnableVertexAttribArray(1);
+
+        glVertexAttribPointer(2, uvSize, GL_FLOAT, false, vertexSizeBytes, (positionSize + colorSize) * Float.BYTES);
+        glEnableVertexAttribArray(2);
     }
 
     @Override
     public void update(float deltaTime) {
         // Bind shader program
         shader.use();
+
+        // Upload texture to shader
+        shader.upload("TEX_SAMPLER", 0);
+        glActiveTexture(GL_TEXTURE0);
+        texture.bind();
+
         shader.upload("uProjection", camera.getProjectionMatrix());
         shader.upload("uView", camera.getViewMatrix());
         shader.upload("uTime", Time.getTime());
