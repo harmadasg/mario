@@ -60,6 +60,11 @@ public class Window {
         glfwSetErrorCallback(null).free();
     }
 
+    public void setScene(Scene scene) {
+        currentScene = scene;
+        currentScene.start();
+    }
+
     private void init() {
         // Setup an error callback
         GLFWErrorCallback.createPrint(System.err).set();
@@ -101,7 +106,7 @@ public class Window {
         // bindings available for use.
         GL.createCapabilities();
 
-        currentScene = new LevelEditorScene();
+        setScene(new LevelEditorScene());
     }
 
     private void loop() {

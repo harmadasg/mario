@@ -1,6 +1,6 @@
 package jade.scene;
 
-public class LevelScene implements Scene {
+public class LevelScene extends Scene {
     @Override
     public void update(float deltaTime) {
         

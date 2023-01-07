@@ -12,12 +12,11 @@ import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
-public class LevelEditorScene implements Scene {
+public class LevelEditorScene extends Scene {
 
     private int vaoId, vboId, eboId;
     private final Shader shader;
     private final Texture texture;
-    private final Camera camera;
 
     private float[] vertexArray = {
         // position             // color                    // UV Coordinates
