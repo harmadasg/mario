@@ -1,16 +1,24 @@
 package jade;
 
+import jade.component.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameObject {
 
     private final String name;
+    private Transform transform;
     private final List<Component> components;
 
 
     public GameObject(String name) {
+        this(name, new Transform());
+    }
+
+    public GameObject(String name, Transform transform) {
         this.name = name;
+        this.transform = transform;
         this.components = new ArrayList<>();
     }
 
@@ -37,5 +45,9 @@ public class GameObject {
 
     public void start() {
         components.forEach(Component::start);
+    }
+
+    public Transform getTransform() {
+        return transform;
     }
 }

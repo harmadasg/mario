@@ -60,6 +60,10 @@ public class Window {
         glfwSetErrorCallback(null).free();
     }
 
+    public Scene getScene() {
+        return currentScene;
+    }
+
     public void setScene(Scene scene) {
         currentScene = scene;
         currentScene.start();
