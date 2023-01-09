@@ -23,12 +23,7 @@ public class Shader {
         this.filePath = filePath;
         this.uniformUploader = new UniformUploader(this);
         extractSources(readFile(filePath));
-    }
-
-    public void compileAndLink() {
-        int vertexId = compileShader(GL_VERTEX_SHADER, vertexSource);
-        int fragmentId = compileShader(GL_FRAGMENT_SHADER, fragmentSource);
-        linkShaders(vertexId, fragmentId);
+        compileAndLink();
     }
 
     public void use() {
@@ -50,6 +45,12 @@ public class Shader {
 
     public int getShaderProgramId() {
         return shaderProgramId;
+    }
+
+    private void compileAndLink() {
+        int vertexId = compileShader(GL_VERTEX_SHADER, vertexSource);
+        int fragmentId = compileShader(GL_FRAGMENT_SHADER, fragmentSource);
+        linkShaders(vertexId, fragmentId);
     }
 
     private String readFile(String filePath) {

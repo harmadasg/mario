@@ -9,6 +9,7 @@ import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
+import static util.AssetPool.getShader;
 
 public class RenderBatch {
     // Vertex
@@ -29,12 +30,11 @@ public class RenderBatch {
     private int numberOfSprites;
     private boolean hasRoom;
     private int vaoId, vboId;
-    private int maxBatchSize;
-    private Shader shader;
+    private final int maxBatchSize;
+    private final Shader shader;
 
     public RenderBatch(int maxBatchSize) {
-        this.shader = new Shader("assets/shaders/default.glsl");
-        this.shader.compileAndLink();
+        this.shader = getShader("assets/shaders/default.glsl");
         this.sprites = new SpriteRenderer[maxBatchSize];
         this.maxBatchSize = maxBatchSize;
 
