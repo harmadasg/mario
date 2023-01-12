@@ -30,6 +30,8 @@ class UniformUploader {
             uploadFloat(varName, (Float) value);
         else if (value instanceof Integer)
             uploadInt(varName, (Integer) value);
+        else if (value instanceof int[])
+            uploadIntArray(varName, (int[]) value);
     }
 
     private void uploadMat4f(String varName, Matrix4f mat4) {
@@ -62,6 +64,10 @@ class UniformUploader {
 
     private void uploadInt(String varName, int val) {
         glUniform1i(getLocation(varName), val);
+    }
+
+    private void uploadIntArray(String varName, int[] val) {
+        glUniform1iv(getLocation(varName), val);
     }
 
     private int getLocation(String varName) {

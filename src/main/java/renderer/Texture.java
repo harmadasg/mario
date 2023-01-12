@@ -6,8 +6,7 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.stb.STBImage.stbi_image_free;
-import static org.lwjgl.stb.STBImage.stbi_load;
+import static org.lwjgl.stb.STBImage.*;
 
 public class Texture {
 
@@ -35,6 +34,7 @@ public class Texture {
     }
 
     private void uploadTexture() {
+        stbi_set_flip_vertically_on_load(true);
         glBindTexture(GL_TEXTURE_2D, textId);
         repeatImageInBothDirections();
         pixelateImage();

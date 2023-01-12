@@ -14,13 +14,12 @@ import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.system.MemoryUtil.NULL;
-import static util.Time.getTime;
 
 public class Window {
 
-    private static final float RED = 1.0f;
-    private static final float GREEN = 1.0f;
-    private static final float BLUE = 1.0f;
+    private static final float RED = 0.0f;
+    private static final float GREEN = 0.0f;
+    private static final float BLUE = 0.0f;
     private static final float ALPHA = 1.0f;
     private static Window WINDOW;
 
@@ -115,7 +114,7 @@ public class Window {
 
     private void loop() {
         float deltaTime = 0.0f;
-        float endTime, beginTime = getTime();
+        float endTime, beginTime = (float) glfwGetTime();
 
         while (!glfwWindowShouldClose(glfwWindow)) {
             // Poll events
@@ -128,7 +127,7 @@ public class Window {
 
             glfwSwapBuffers(glfwWindow);
 
-            endTime = getTime();
+            endTime = (float) glfwGetTime();
             deltaTime = endTime - beginTime;
             beginTime = endTime;
         }
