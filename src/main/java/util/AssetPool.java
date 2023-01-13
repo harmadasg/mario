@@ -1,5 +1,6 @@
 package util;
 
+import jade.component.SpriteSheet;
 import renderer.Shader;
 import renderer.Texture;
 
@@ -11,6 +12,7 @@ public class AssetPool {
 
     private static final Map<String, Shader> SHADERS = new HashMap<>();
     private static final Map<String, Texture> TEXTURES = new HashMap<>();
+    private static final Map<String, SpriteSheet> SPRITE_SHEETS = new HashMap<>();
 
     public static Shader getShader(String resourceName) {
         var file = new File(resourceName);
@@ -33,4 +35,18 @@ public class AssetPool {
             return texture;
         }
     }
+
+    public static void addSpriteSheet(String resourceName, SpriteSheet spriteSheet) {
+        SPRITE_SHEETS.put(resourceName, spriteSheet);
+    }
+
+    public static SpriteSheet getSpritesheet(String resourceName) {
+        SpriteSheet value = SPRITE_SHEETS.get(resourceName);
+        if (value == null) {
+            throw new IllegalStateException(
+                    "Error: Tried to access spritesheet '" + resourceName + "' and it has not been added to asset pool");
+        }
+        return value;
+    }
+
 }

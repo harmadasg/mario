@@ -12,17 +12,21 @@ public class Texture {
 
     private final String filePath;
     private final int textId;
-    private final IntBuffer width;
-    private final IntBuffer height;
+    private final IntBuffer bufferWidth;
+    private final IntBuffer bufferHeight;
     private final IntBuffer channels;
+    private final int width;
+    private final int height;
 
     public Texture(String filePath) {
         this.filePath = filePath;
         this.textId = glGenTextures();
-        width = BufferUtils.createIntBuffer(1);
-        height = BufferUtils.createIntBuffer(1);
+        bufferWidth = BufferUtils.createIntBuffer(1);
+        bufferHeight = BufferUtils.createIntBuffer(1);
         channels = BufferUtils.createIntBuffer(1);
         uploadTexture();
+        width = bufferWidth.get(0);
+        height = bufferHeight.get(0);
     }
 
     public void bind() {
@@ -31,6 +35,14 @@ public class Texture {
 
     public void unbind() {
         glBindTexture(GL_TEXTURE_2D, 0);
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     private void uploadTexture() {
@@ -57,7 +69,7 @@ public class Texture {
     }
 
     private ByteBuffer loadImage() {
-        return stbi_load(filePath, width, height, channels, 0);
+        return stbi_load(filePath, bufferWidth, bufferHeight, channels, 0);
     }
 
     private void validateImage(ByteBuffer image) {
@@ -68,7 +80,7 @@ public class Texture {
 
     private void uploadToGPU(ByteBuffer image) {
         var colorScheme = getColorScheme(channels.get(0));
-        glTexImage2D(GL_TEXTURE_2D, 0, colorScheme, width.get(0), height.get(0),
+        glTexImage2D(GL_TEXTURE_2D, 0, colorScheme, bufferWidth.get(0), bufferHeight.get(0),
                 0, colorScheme, GL_UNSIGNED_BYTE, image);
     }
 

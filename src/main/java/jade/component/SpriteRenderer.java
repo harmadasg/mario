@@ -7,29 +7,18 @@ import renderer.Texture;
 public class SpriteRenderer extends Component {
 
     private static final Vector4f WHITE = new Vector4f(1, 1, 1, 1);
-    private static final Vector2f[] DUMMY = {
-            new Vector2f(1, 1),
-            new Vector2f(1, 0),
-            new Vector2f(0, 0),
-            new Vector2f(0, 1)
-    };
 
     private final Vector4f color;
-    private final Texture texture;
-    private Vector2f[] textCoordinates;
-    // (0, 1)
-    // (0, 0)
-    // (1, 1)
-    // (1, 0)
+    private final Sprite sprite;
 
-    public SpriteRenderer(Texture texture) {
-        this.texture = texture;
+    public SpriteRenderer(Sprite sprite) {
+        this.sprite = sprite;
         this.color = WHITE;
     }
 
     public SpriteRenderer(Vector4f color) {
         this.color = color;
-        this.texture = null;
+        this.sprite = new Sprite(null);
     }
 
     @Override
@@ -41,7 +30,7 @@ public class SpriteRenderer extends Component {
     }
 
     public boolean hasTexture() {
-        return texture != null;
+        return sprite.hasTexture();
     }
 
     public Vector4f getColor() {
@@ -49,10 +38,10 @@ public class SpriteRenderer extends Component {
     }
 
     public Texture getTexture() {
-        return texture;
+        return sprite.getTexture();
     }
 
     public Vector2f[] getTextCoordinates() {
-        return DUMMY; // uv coordinates, only temporary
+        return sprite.getTextureCoordinates();
     }
 }

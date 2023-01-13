@@ -41,6 +41,7 @@ public class RenderBatch {
     private static final int VERTEX_SIZE = 9;
     private static final int VERTEX_SIZE_BYTES = VERTEX_SIZE * Float.BYTES;
     private static final int[] textureSlots = {0, 1, 2, 3, 4, 5, 6, 7};
+    private static final int MAX_TEXTURE_SIZE = 8;
 
     private final SpriteRenderer[] sprites;
     private final List<Texture> textures;
@@ -133,8 +134,12 @@ public class RenderBatch {
         }
     }
 
-    public boolean isHasRoom() {
-        return hasRoom;
+    public boolean canSpriteBeAdded(SpriteRenderer spriteRenderer) {
+        var texture = spriteRenderer.getTexture();
+        return hasRoom
+                || texture == null
+                || textures.contains(texture)
+                || textures.size() < MAX_TEXTURE_SIZE;
     }
 
     private void enableBufferAttributePointers() {

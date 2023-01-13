@@ -25,7 +25,9 @@ public class Renderer {
     }
 
     private void add(SpriteRenderer sprite) {
-        var batch = batches.stream().filter(RenderBatch::isHasRoom).findFirst();
+        var batch = batches.stream()
+                .filter(b -> b.canSpriteBeAdded(sprite))
+                .findFirst();
         batch.ifPresentOrElse(b -> b.addSprite(sprite),
                 () -> createBatchAndAdd(sprite));
     }
