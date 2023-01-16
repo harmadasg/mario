@@ -6,11 +6,11 @@ import renderer.Texture;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpriteSheet {
+public class Spritesheet {
 
     private final List<Sprite> sprites;
 
-    public SpriteSheet(Texture texture, int spriteWidth, int spriteHeight, int numberOfSprites, int spacing) {
+    public Spritesheet(Texture texture, int spriteWidth, int spriteHeight, int numberOfSprites, int spacing) {
         sprites = new ArrayList<>();
         addSprites(texture, spriteWidth, spriteHeight, numberOfSprites, spacing);
     }

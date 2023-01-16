@@ -1,7 +1,6 @@
 package jade.component;
 
 import jade.GameObject;
-import org.joml.Vector2f;
 
 public abstract class Component {
 

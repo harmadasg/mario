@@ -86,9 +86,7 @@ public class RenderBatch {
     }
 
     public void render() {
-        // For now, we will rebuffer all data every frame
-        glBindBuffer(GL_ARRAY_BUFFER, vboId);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, vertices);
+        rebufferConditionally();
 
         // Use shader
         shader.upload("uProjection", Window.get().getScene().getCamera().getProjectionMatrix());
@@ -238,5 +236,22 @@ public class RenderBatch {
 
     private void loadTextureId(int offset, int id) {
         vertices[offset + 8] = id;
+    }
+
+    private void rebufferConditionally() {
+        boolean rebufferData = false;
+        for (int i = 0; i < numberOfSprites; i++) {
+            SpriteRenderer sprite = sprites[i];
+            if (sprite.isDirty()) {
+                loadVertexProperties(i);
+                sprite.clean();
+                rebufferData = true;
+            }
+        }
+
+        if (rebufferData) {
+            glBindBuffer(GL_ARRAY_BUFFER, vboId);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, vertices);
+        }
     }
 }
