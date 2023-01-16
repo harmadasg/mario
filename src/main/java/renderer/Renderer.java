@@ -6,6 +6,8 @@ import jade.component.SpriteRenderer;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Comparator.comparingInt;
+
 public class Renderer {
 
     private static final int MAX_BATCH_SIZE = 1000;
@@ -21,22 +23,19 @@ public class Renderer {
 
     public void add(GameObject gameObject) {
         var spriteRenderer = gameObject.getComponent(SpriteRenderer.class);
-        add(spriteRenderer);
-    }
-
-    private void add(SpriteRenderer sprite) {
         var batch = batches.stream()
-                .filter(b -> b.canSpriteBeAdded(sprite))
+                .filter(b -> b.canSpriteBeAdded(spriteRenderer))
                 .findFirst();
-        batch.ifPresentOrElse(b -> b.addSprite(sprite),
-                () -> createBatchAndAdd(sprite));
+        batch.ifPresentOrElse(b -> b.addSprite(spriteRenderer),
+                () -> createBatchAndAdd(spriteRenderer));
     }
 
     private void createBatchAndAdd(SpriteRenderer sprite) {
-        var newBatch = new RenderBatch(MAX_BATCH_SIZE);
+        var newBatch = new RenderBatch(MAX_BATCH_SIZE, sprite.getGameObject().getzIndex());
         newBatch.start();
         batches.add(newBatch);
         newBatch.addSprite(sprite);
+        batches.sort(comparingInt(RenderBatch::getzIndex));
     }
 
 }

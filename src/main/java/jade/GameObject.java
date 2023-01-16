@@ -8,18 +8,20 @@ import java.util.List;
 public class GameObject {
 
     private final String name;
+    private final int zIndex;
     private final Transform transform;
     private final List<Component> components;
 
 
     public GameObject(String name) {
-        this(name, new Transform());
+        this(name, new Transform(), 0);
     }
 
-    public GameObject(String name, Transform transform) {
+    public GameObject(String name, Transform transform, int zIndex) {
         this.name = name;
         this.transform = transform;
         this.components = new ArrayList<>();
+        this.zIndex = zIndex;
     }
 
     public <T extends Component> T getComponent(Class<T> componentClass) {
@@ -49,5 +51,9 @@ public class GameObject {
 
     public Transform getTransform() {
         return transform;
+    }
+
+    public int getzIndex() {
+        return zIndex;
     }
 }

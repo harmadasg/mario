@@ -51,13 +51,15 @@ public class RenderBatch {
     private boolean hasRoom;
     private int vaoId, vboId;
     private final int maxBatchSize;
+    private final int zIndex;
     private final Shader shader;
 
-    public RenderBatch(int maxBatchSize) {
+    public RenderBatch(int maxBatchSize, int zIndex) {
         this.shader = getShader("assets/shaders/default.glsl");
         this.textures = new ArrayList<>();
         this.sprites = new SpriteRenderer[maxBatchSize];
         this.maxBatchSize = maxBatchSize;
+        this.zIndex = zIndex;
 
         // 4 vertices quads
         this. vertices = new float[maxBatchSize * 4 * VERTEX_SIZE];
@@ -135,9 +137,10 @@ public class RenderBatch {
     public boolean canSpriteBeAdded(SpriteRenderer spriteRenderer) {
         var texture = spriteRenderer.getTexture();
         return hasRoom
-                || texture == null
+                && zIndex == spriteRenderer.getGameObject().getzIndex()
+                && (texture == null
                 || textures.contains(texture)
-                || textures.size() < MAX_TEXTURE_SIZE;
+                || textures.size() < MAX_TEXTURE_SIZE);
     }
 
     private void enableBufferAttributePointers() {
@@ -253,5 +256,9 @@ public class RenderBatch {
             glBindBuffer(GL_ARRAY_BUFFER, vboId);
             glBufferSubData(GL_ARRAY_BUFFER, 0, vertices);
         }
+    }
+
+    public int getzIndex() {
+        return zIndex;
     }
 }
