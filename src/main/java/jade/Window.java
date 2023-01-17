@@ -21,9 +21,10 @@ public class Window {
     private static final float ALPHA = 1.0f;
     private static Window WINDOW;
 
-    private final int width;
-    private final int height;
     private final String title;
+    private ImGuiLayer imGuiLayer;
+    private int width;
+    private int height;
 
     private long glfwWindow;
     private Scene currentScene;
@@ -66,6 +67,14 @@ public class Window {
         currentScene.start();
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
     private void init() {
         // Setup an error callback
         GLFWErrorCallback.createPrint(System.err).set();
@@ -79,7 +88,7 @@ public class Window {
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
-        glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
+        glfwWindowHint(GLFW_MAXIMIZED, GLFW_FALSE);
 
         // Create the window
         glfwWindow = glfwCreateWindow(width, height, title, NULL, NULL);
@@ -91,6 +100,10 @@ public class Window {
         glfwSetMouseButtonCallback(glfwWindow, MouseListener.get()::onMouseButtonAction);
         glfwSetScrollCallback(glfwWindow, MouseListener.get()::onMouseScrollAction);
         glfwSetKeyCallback(glfwWindow, KeyboardListener.get()::obKeyboardAction);
+        glfwSetWindowSizeCallback(glfwWindow, (window, newWidth, newHeight) -> {
+            width = newWidth;
+            height = newHeight;
+        });
 
         // Make the OpenGL context current
         glfwMakeContextCurrent(glfwWindow);
@@ -109,6 +122,7 @@ public class Window {
 
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+        imGuiLayer = new ImGuiLayer(glfwWindow);
 
         setScene(new LevelEditorScene());
     }
@@ -126,6 +140,7 @@ public class Window {
 
             currentScene.update(deltaTime);
 
+            imGuiLayer.update(deltaTime);
             glfwSwapBuffers(glfwWindow);
 
             endTime = (float) glfwGetTime();
