@@ -1,5 +1,6 @@
 package jade.scene;
 
+import imgui.ImGui;
 import jade.Camera;
 import jade.GameObject;
 import renderer.Renderer;
@@ -13,6 +14,7 @@ public abstract class Scene {
     protected final List<GameObject> gameObjects;
 
     protected Renderer renderer;
+    protected GameObject activeGameObject;
     private boolean isRunning;
 
     protected Scene() {
@@ -25,6 +27,14 @@ public abstract class Scene {
                 .peek(GameObject::start)
                 .forEach(renderer::add);
         isRunning = true;
+    }
+
+    public void renderImgui() {
+        if (activeGameObject != null) {
+            ImGui.begin("Inspector");
+            activeGameObject.renderImgui();
+            ImGui.end();
+        }
     }
 
     public abstract void update(float deltaTime);

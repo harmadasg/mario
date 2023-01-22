@@ -6,7 +6,11 @@ public abstract class Component {
 
     protected GameObject gameObject;
 
-    public abstract void update(float deltaTime);
+    public void update(float deltaTime) {
+    }
+
+    public void renderImgui() {
+    }
 
     public void start() {}
 

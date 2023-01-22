@@ -41,6 +41,10 @@ public class GameObject {
         component.setGameObject(this);
     }
 
+    public void renderImgui() {
+        components.forEach(Component::renderImgui);
+    }
+
     public void update(float deltaTime) {
         components.forEach(c -> c.update(deltaTime));
     }

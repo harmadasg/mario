@@ -140,7 +140,7 @@ public class Window {
 
             currentScene.update(deltaTime);
 
-            imGuiLayer.update(deltaTime);
+            imGuiLayer.update(deltaTime, currentScene);
             glfwSwapBuffers(glfwWindow);
 
             endTime = (float) glfwGetTime();
