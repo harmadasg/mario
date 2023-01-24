@@ -12,8 +12,13 @@ public class SpriteRenderer extends Component {
 
     private Vector4f color;
     private Sprite sprite;
-    private Transform lastTransform;
-    private boolean isDirty;
+
+    private transient Transform lastTransform;
+    private transient boolean isDirty;
+
+    public SpriteRenderer() {
+        this(WHITE);
+    }
 
     public SpriteRenderer(Sprite sprite) {
         this.sprite = sprite;

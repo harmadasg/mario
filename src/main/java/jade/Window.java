@@ -131,6 +131,8 @@ public class Window {
         float deltaTime = 0.0f;
         float endTime, beginTime = (float) glfwGetTime();
 
+        currentScene.load();
+
         while (!glfwWindowShouldClose(glfwWindow)) {
             // Poll events
             glfwPollEvents();
@@ -147,5 +149,7 @@ public class Window {
             deltaTime = endTime - beginTime;
             beginTime = endTime;
         }
+
+        currentScene.saveExit();
     }
 }

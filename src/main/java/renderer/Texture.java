@@ -10,15 +10,16 @@ import static org.lwjgl.stb.STBImage.*;
 
 public class Texture {
 
-    private final String filePath;
-    private final int textId;
-    private final IntBuffer bufferWidth;
-    private final IntBuffer bufferHeight;
-    private final IntBuffer channels;
-    private final int width;
-    private final int height;
+    private String filePath;
+    private int textId;
+    private int width;
+    private int height;
 
-    public Texture(String filePath) {
+    private transient IntBuffer bufferWidth;
+    private transient IntBuffer bufferHeight;
+    private transient IntBuffer channels;
+
+    public void init(String filePath) {
         this.filePath = filePath;
         this.textId = glGenTextures();
         bufferWidth = BufferUtils.createIntBuffer(1);

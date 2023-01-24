@@ -15,6 +15,10 @@ public class Sprite {
     private final Texture texture;
     private final Vector2f[] textureCoordinates;
 
+    public Sprite() {
+        this(null, DEFAULT);
+    }
+
     public Sprite(Texture texture) {
         this(texture, DEFAULT);
     }

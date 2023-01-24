@@ -4,7 +4,7 @@ import jade.GameObject;
 
 public abstract class Component {
 
-    protected GameObject gameObject;
+    protected transient GameObject gameObject;
 
     public void update(float deltaTime) {
     }

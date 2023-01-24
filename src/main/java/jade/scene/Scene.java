@@ -4,15 +4,16 @@ import imgui.ImGui;
 import jade.Camera;
 import jade.GameObject;
 import renderer.Renderer;
+import util.SerializerHelper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class Scene {
-    protected Camera camera;
-
     protected final List<GameObject> gameObjects;
-
+    protected Camera camera;
+    protected boolean isLevelLoaded;
     protected Renderer renderer;
     protected GameObject activeGameObject;
     private boolean isRunning;
@@ -38,6 +39,17 @@ public abstract class Scene {
     }
 
     public abstract void update(float deltaTime);
+
+    public void saveExit() {
+        SerializerHelper.serialize(gameObjects);
+    }
+
+    public void load() {
+        var gameObjects = SerializerHelper.deserialize();
+        Arrays.stream(gameObjects)
+                .forEach(this::addGameObjectToScene);
+        isLevelLoaded = true;
+    }
 
     protected void addGameObjectToScene(GameObject gameObject) {
         gameObjects.add(gameObject);
