@@ -1,9 +1,13 @@
 package jade.component;
 
 import jade.GameObject;
+import lombok.Getter;
+import lombok.Setter;
 
 public abstract class Component {
 
+    @Getter
+    @Setter
     protected transient GameObject gameObject;
 
     public void update(float deltaTime) {
@@ -13,12 +17,4 @@ public abstract class Component {
     }
 
     public void start() {}
-
-    public GameObject getGameObject() {
-        return gameObject;
-    }
-
-    public void setGameObject(GameObject gameObject) {
-        this.gameObject = gameObject;
-    }
 }

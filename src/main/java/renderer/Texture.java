@@ -1,5 +1,6 @@
 package renderer;
 
+import lombok.Getter;
 import org.lwjgl.BufferUtils;
 
 import java.nio.ByteBuffer;
@@ -12,7 +13,9 @@ public class Texture {
 
     private String filePath;
     private int textId;
+    @Getter
     private int width;
+    @Getter
     private int height;
 
     private transient IntBuffer bufferWidth;
@@ -36,14 +39,6 @@ public class Texture {
 
     public void unbind() {
         glBindTexture(GL_TEXTURE_2D, 0);
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
     }
 
     private void uploadTexture() {

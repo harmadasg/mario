@@ -1,5 +1,6 @@
 package jade;
 
+import lombok.Getter;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -8,6 +9,7 @@ public class Camera {
 
     private static final float GRID_TILE_SIZE = 32.0f;
 
+    @Getter
     private final Matrix4f projectionMatrix = new Matrix4f();
     private final Matrix4f viewMatrix = new Matrix4f();
     private final Vector2f position;
@@ -24,10 +26,6 @@ public class Camera {
                 cameraFront.add(position.x, position.y, 0.0f),
                 cameraUp);
         return viewMatrix;
-    }
-
-    public Matrix4f getProjectionMatrix() {
-        return projectionMatrix;
     }
 
     private void adjustProjection() {

@@ -1,28 +1,21 @@
 package jade;
 
 import jade.component.Component;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@RequiredArgsConstructor
 public class GameObject {
 
     private final String name;
-    private final int zIndex;
+    @Getter
     private final Transform transform;
-    private final List<Component> components;
-
-
-    public GameObject(String name) {
-        this(name, new Transform(), 0);
-    }
-
-    public GameObject(String name, Transform transform, int zIndex) {
-        this.name = name;
-        this.transform = transform;
-        this.components = new ArrayList<>();
-        this.zIndex = zIndex;
-    }
+    @Getter
+    private final int zIndex;
+    private final List<Component> components = new ArrayList<>();
 
     public <T extends Component> T getComponent(Class<T> componentClass) {
         return components.stream()
@@ -53,11 +46,4 @@ public class GameObject {
         components.forEach(Component::start);
     }
 
-    public Transform getTransform() {
-        return transform;
-    }
-
-    public int getzIndex() {
-        return zIndex;
-    }
 }

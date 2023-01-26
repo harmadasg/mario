@@ -1,5 +1,6 @@
 package renderer;
 
+import lombok.RequiredArgsConstructor;
 import org.joml.*;
 import org.lwjgl.BufferUtils;
 
@@ -7,13 +8,10 @@ import java.nio.FloatBuffer;
 
 import static org.lwjgl.opengl.GL20.*;
 
+@RequiredArgsConstructor
 class UniformUploader {
 
     private final Shader shader;
-
-    UniformUploader(Shader shader) {
-        this.shader = shader;
-    }
 
     void upload(String varName, Object value) {
         if (value instanceof Matrix4f)

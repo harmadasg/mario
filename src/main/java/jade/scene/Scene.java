@@ -3,6 +3,7 @@ package jade.scene;
 import imgui.ImGui;
 import jade.Camera;
 import jade.GameObject;
+import lombok.Getter;
 import renderer.Renderer;
 import util.SerializerHelper;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 public abstract class Scene {
     protected final List<GameObject> gameObjects;
+    @Getter
     protected Camera camera;
     protected boolean isLevelLoaded;
     protected Renderer renderer;
@@ -59,7 +61,4 @@ public abstract class Scene {
         }
     }
 
-    public Camera getCamera() {
-        return camera;
-    }
 }

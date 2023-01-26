@@ -2,6 +2,7 @@ package renderer;
 
 import jade.Window;
 import jade.component.SpriteRenderer;
+import lombok.Getter;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
@@ -51,6 +52,7 @@ public class RenderBatch {
     private boolean hasRoom;
     private int vaoId, vboId;
     private final int maxBatchSize;
+    @Getter
     private final int zIndex;
     private final Shader shader;
 
@@ -91,8 +93,8 @@ public class RenderBatch {
         rebufferConditionally();
 
         // Use shader
-        shader.upload("uProjection", Window.get().getScene().getCamera().getProjectionMatrix());
-        shader.upload("uView", Window.get().getScene().getCamera().getViewMatrix());
+        shader.upload("uProjection", Window.get().getCurrentScene().getCamera().getProjectionMatrix());
+        shader.upload("uView", Window.get().getCurrentScene().getCamera().getViewMatrix());
 
         // Bind textures
         for (int i = 0; i < textures.size(); i++) {
@@ -137,7 +139,7 @@ public class RenderBatch {
     public boolean canSpriteBeAdded(SpriteRenderer spriteRenderer) {
         var texture = spriteRenderer.getTexture();
         return hasRoom
-                && zIndex == spriteRenderer.getGameObject().getzIndex()
+                && zIndex == spriteRenderer.getGameObject().getZIndex()
                 && (texture == null
                 || textures.contains(texture)
                 || textures.size() < MAX_TEXTURE_SIZE);
@@ -256,9 +258,5 @@ public class RenderBatch {
             glBindBuffer(GL_ARRAY_BUFFER, vboId);
             glBufferSubData(GL_ARRAY_BUFFER, 0, vertices);
         }
-    }
-
-    public int getzIndex() {
-        return zIndex;
     }
 }

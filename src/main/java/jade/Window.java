@@ -4,6 +4,7 @@ import jade.listener.KeyboardListener;
 import jade.listener.MouseListener;
 import jade.scene.LevelEditorScene;
 import jade.scene.Scene;
+import lombok.Getter;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
@@ -23,10 +24,13 @@ public class Window {
 
     private final String title;
     private ImGuiLayer imGuiLayer;
+    @Getter
     private int width;
+    @Getter
     private int height;
 
     private long glfwWindow;
+    @Getter
     private Scene currentScene;
 
     private Window() {
@@ -58,21 +62,9 @@ public class Window {
         glfwSetErrorCallback(null).free();
     }
 
-    public Scene getScene() {
-        return currentScene;
-    }
-
     public void setScene(Scene scene) {
         currentScene = scene;
         currentScene.start();
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
     }
 
     private void init() {

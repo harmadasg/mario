@@ -13,9 +13,13 @@ project.ext.jomlVersion = "1.10.5"
 project.ext.imguiVersion = "1.86.1"
 project.ext.lwjglNatives = "natives-linux"
 project.ext.gsonVersion = "2.10.1"
+project.ext.lombokVersion = "1.18.20"
 
 dependencies {
     implementation "com.google.code.gson:gson:${gsonVersion}"
+
+    implementation "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
 
     implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
 

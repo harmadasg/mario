@@ -11,11 +11,7 @@ import static java.util.Comparator.comparingInt;
 public class Renderer {
 
     private static final int MAX_BATCH_SIZE = 1000;
-    private final List<RenderBatch> batches;
-
-    public Renderer() {
-        batches = new ArrayList<>();
-    }
+    private final List<RenderBatch> batches = new ArrayList<>();
 
     public void render() {
         batches.forEach(RenderBatch::render);
@@ -31,11 +27,11 @@ public class Renderer {
     }
 
     private void createBatchAndAdd(SpriteRenderer sprite) {
-        var newBatch = new RenderBatch(MAX_BATCH_SIZE, sprite.getGameObject().getzIndex());
+        var newBatch = new RenderBatch(MAX_BATCH_SIZE, sprite.getGameObject().getZIndex());
         newBatch.start();
         batches.add(newBatch);
         newBatch.addSprite(sprite);
-        batches.sort(comparingInt(RenderBatch::getzIndex));
+        batches.sort(comparingInt(RenderBatch::getZIndex));
     }
 
 }

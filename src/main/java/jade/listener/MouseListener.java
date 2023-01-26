@@ -1,5 +1,7 @@
 package jade.listener;
 
+import lombok.Getter;
+
 import static org.lwjgl.glfw.GLFW.*;
 
 public class MouseListener {
@@ -7,8 +9,17 @@ public class MouseListener {
     private static final int SUPPORTED_MOUSE_BUTTONS = 3;
     private static MouseListener INSTANCE;
 
-    private double scrollX, scrollY;
-    private double xPosition, yPosition, lastX, lastY;
+    @Getter
+    private double scrollX;
+    @Getter
+    private double scrollY;
+    @Getter
+    private double xPosition;
+    @Getter
+    private double yPosition;
+    private double lastX;
+    private double lastY;
+    @Getter
     private boolean isDragging;
     private final boolean[] mouseButtonPressed;
 
@@ -54,32 +65,12 @@ public class MouseListener {
         lastY = yPosition;
     }
 
-    public double getX() {
-        return xPosition;
-    }
-
-    public double getY() {
-        return yPosition;
-    }
-
     public double getDx() {
         return lastX - xPosition;
     }
 
     public double getDy() {
         return lastY - yPosition;
-    }
-
-    public double getScrollX() {
-        return scrollX;
-    }
-
-    public double getScrollY() {
-        return scrollY;
-    }
-
-    public boolean isDragging() {
-        return isDragging;
     }
 
     public boolean isMouseButtonDown(int button) {

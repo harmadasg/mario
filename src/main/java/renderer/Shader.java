@@ -1,5 +1,7 @@
 package renderer;
 
+import lombok.Getter;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -12,6 +14,7 @@ public class Shader {
 
     private final String filePath;
 
+    @Getter
     private int shaderProgramId;
     private String vertexSource;
     private String fragmentSource;
@@ -42,10 +45,6 @@ public class Shader {
         uniformUploader.upload(varName, value);
     }
 
-
-    public int getShaderProgramId() {
-        return shaderProgramId;
-    }
 
     private void compileAndLink() {
         int vertexId = compileShader(GL_VERTEX_SHADER, vertexSource);
